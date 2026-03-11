@@ -1,14 +1,18 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
         user: process.env.EMAIL_USER || 'officialeasyweb@gmail.com',
         pass: process.env.EMAIL_PASS,
     },
     tls: {
         rejectUnauthorized: false
-    }
+    },
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
 });
 
 const sendNotificationEmail = async (type, data) => {
