@@ -18,18 +18,6 @@ const pageVariants = {
 
 const pageTransition = { duration: 0.35, ease: 'easeInOut' };
 
-// Admin Protection Component
-const ProtectedAdmin = ({ children }) => {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const isAdmin = params.get('admin') === 'true';
-
-  if (!isAdmin) {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
-};
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -56,11 +44,7 @@ function AnimatedRoutes() {
             <Route path="/templates" element={<Templates />} />
             <Route path="/templates/:id" element={<TemplateDetail />} />
             <Route path="/order" element={<Order />} />
-            <Route path="/admin" element={
-              <ProtectedAdmin>
-                <Admin />
-              </ProtectedAdmin>
-            } />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={
               <div className="min-h-screen flex items-center justify-center pt-16 bg-dark-900">

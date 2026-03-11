@@ -7,6 +7,7 @@ const navLinks = [
     { label: 'Home', path: '/' },
     { label: 'Templates', path: '/templates' },
     { label: 'Contact', path: '/contact' },
+    { label: 'Admin', path: '/admin' },
 ];
 
 export default function Navbar() {
@@ -14,9 +15,6 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
 
-    // Check if admin mode is enabled via query param or if we are already on the admin page
-    const params = new URLSearchParams(location.search);
-    const isAdminMode = params.get('admin') === 'true' || location.pathname === '/admin';
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 20);
@@ -26,11 +24,6 @@ export default function Navbar() {
 
     useEffect(() => setMenuOpen(false), [location]);
 
-    // Construct dynamic links including Admin if in admin mode
-    const dynamicLinks = [...navLinks];
-    if (isAdminMode) {
-        dynamicLinks.push({ label: 'Admin', path: `/admin?admin=true` });
-    }
 
     return (
         <motion.nav
@@ -65,7 +58,7 @@ export default function Navbar() {
 
                     {/* Navigation Links */}
                     <div className="flex items-center gap-0.5 md:gap-4">
-                        {dynamicLinks.map((link) => (
+                        {navLinks.map((link) => (
                             <Link
                                 key={link.path}
                                 to={link.path}
