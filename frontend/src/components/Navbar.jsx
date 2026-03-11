@@ -7,7 +7,6 @@ const navLinks = [
     { label: 'Home', path: '/' },
     { label: 'Templates', path: '/templates' },
     { label: 'Contact', path: '/contact' },
-    { label: 'Admin', path: '/admin' },
 ];
 
 export default function Navbar() {
