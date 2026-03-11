@@ -73,7 +73,8 @@ const sendNotificationEmail = async (type, data) => {
         });
         console.log(`✅ Email notification sent: ${type}`);
     } catch (error) {
-        console.error('❌ Failed to send email notification:', error);
+        console.error('❌ EMAIL ERROR: Render is likely blocking SMTP ports. Your message is SAVED in the database.');
+        console.error('👉 ACTION: Check your Admin Dashboard at /admin?admin=true to see this request.');
     }
 };
 
