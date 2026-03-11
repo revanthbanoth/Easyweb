@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // In development: VITE_API_URL is empty → uses Vite proxy at /api (no CORS issue)
-// In production:  VITE_API_URL = https://your-backend.onrender.com
-const API_BASE = import.meta.env.VITE_API_URL || '';
+// In production:  VITE_API_URL = https://easyweb-qgyq.onrender.com
+const API_BASE = import.meta.env.VITE_API_URL || 'https://easyweb-qgyq.onrender.com';
 
 const api = axios.create({
     baseURL: `${API_BASE}/api`,
