@@ -57,6 +57,7 @@ export default function Navbar() {
 
                     {/* Navigation Links */}
                     <div className="flex items-center gap-0.5 md:gap-4">
+                        {navLinks.map((link) => (
                             <Link
                                 key={link.path}
                                 to={link.path}
@@ -73,6 +74,7 @@ export default function Navbar() {
                             >
                                 {link.label}
                             </Link>
+                        ))}
                     </div>
 
                     {/* CTA */}
