@@ -28,7 +28,10 @@ export default function TemplateCard({ template, index = 0 }) {
             {/* Preview Image */}
             <div className="relative overflow-hidden h-52">
                 <img
-                    src={template.preview_image}
+                    src={template.preview_image?.includes('unsplash.com') 
+                        ? `${template.preview_image.split('?')[0]}?w=600&q=80&fm=webp&fit=crop`
+                        : template.preview_image
+                    }
                     alt={template.title}
                     loading="lazy"
                     decodings="async"

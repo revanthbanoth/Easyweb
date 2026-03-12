@@ -57,10 +57,14 @@ export default function Navbar() {
 
                     {/* Navigation Links */}
                     <div className="flex items-center gap-0.5 md:gap-4">
-                        {navLinks.map((link) => (
                             <Link
                                 key={link.path}
                                 to={link.path}
+                                onMouseEnter={() => {
+                                    if (link.path === '/templates') {
+                                        import('../services/api').then(({ getTemplates }) => getTemplates());
+                                    }
+                                }}
                                 className={`px-2 md:px-4 py-2 rounded-lg text-[11px] md:text-sm transition-colors ${link.label === 'Home' ? 'hidden md:block' : ''
                                     } ${location.pathname === link.path
                                         ? 'text-white bg-white/10'
@@ -69,7 +73,6 @@ export default function Navbar() {
                             >
                                 {link.label}
                             </Link>
-                        ))}
                     </div>
 
                     {/* CTA */}

@@ -25,6 +25,10 @@ function AnimatedRoutes() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Wake up backend if it's sleeping (Render free tier)
+    import('./services/api').then(({ getTemplates }) => {
+      getTemplates().catch(() => {}); // Silent ping
+    });
   }, [location.pathname]);
 
   return (
