@@ -125,7 +125,7 @@ export default function TemplateDetail() {
                             <div className="flex items-center justify-between mb-4">
                                 <div>
                                     <p className="text-sm text-gray-500 mb-1">Starting from</p>
-                                    <p className="font-display font-black text-5xl gradient-text">₹{Number(template.price).toLocaleString()}</p>
+                                    <p className="font-display font-black text-5xl gradient-text">₹4,999</p>
                                 </div>
                                 <div className="text-right">
                                     <div className="flex items-center gap-1 text-emerald-400 text-sm font-semibold">

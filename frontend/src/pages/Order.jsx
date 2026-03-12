@@ -28,6 +28,7 @@ export default function Order() {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
     const [selectedTemplate, setSelectedTemplate] = useState(null);
+    const [emailError, setEmailError] = useState('');
 
     useEffect(() => {
         document.title = 'Request Website – EasyWeb';
@@ -44,8 +45,18 @@ export default function Order() {
     }, [form.template_id, templates]);
 
     const handleChange = (e) => {
-        setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        const { name, value } = e.target;
+        setForm((prev) => ({ ...prev, [name]: value }));
         setError('');
+
+        if (name === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (value && !emailRegex.test(value)) {
+                setEmailError('Please enter a valid email address.');
+            } else {
+                setEmailError('');
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -54,6 +65,14 @@ export default function Order() {
             setError('Please fill in all required fields.');
             return;
         }
+
+        // Email Validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(form.email)) {
+            setError('Please enter a valid email address.');
+            return;
+        }
+
         setLoading(true);
         setError('');
         try {
@@ -171,9 +190,10 @@ export default function Order() {
                                         value={form.email}
                                         onChange={handleChange}
                                         placeholder="you@business.com"
-                                        className="input-field"
+                                        className={`input-field ${emailError ? 'border-red-500/50 bg-red-500/5' : ''}`}
                                         required
                                     />
+                                    {emailError && <p className="text-red-400 text-[10px] mt-1 ml-1">{emailError}</p>}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
@@ -221,7 +241,7 @@ export default function Order() {
                                         <option value="">Choose a template</option>
                                         {templates.map((t) => (
                                             <option key={t.id} value={t.id}>
-                                                {t.title} – {t.category} (₹{Number(t.price).toLocaleString()})
+                                                {t.title} – {t.category} (₹4,999)
                                             </option>
                                         ))}
                                     </select>
@@ -286,7 +306,7 @@ export default function Order() {
                                         <div className="flex justify-between items-center">
                                             <span className="text-gray-400">Starting Price</span>
                                             <span className="font-display font-bold text-2xl gradient-text">
-                                                ₹{Number(selectedTemplate.price).toLocaleString()}
+                                                ₹4,999
                                             </span>
                                         </div>
                                         <p className="text-xs text-gray-400 mt-2 leading-relaxed">

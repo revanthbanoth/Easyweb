@@ -15,6 +15,7 @@ export default function Contact() {
     const [sent, setSent] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [emailError, setEmailError] = useState('');
     const [openFaq, setOpenFaq] = useState(null);
 
     useEffect(() => {
@@ -22,12 +23,30 @@ export default function Contact() {
     }, []);
 
     const handleChange = (e) => {
-        setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+        const { name, value } = e.target;
+        setForm((p) => ({ ...p, [name]: value }));
         setError('');
+
+        if (name === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (value && !emailRegex.test(value)) {
+                setEmailError('Please enter a valid email address.');
+            } else {
+                setEmailError('');
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Email Validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(form.email)) {
+            setError('Please enter a valid email address.');
+            return;
+        }
+
         setLoading(true);
         setError('');
         try {
@@ -127,7 +146,16 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <label className="block text-sm text-gray-300 mb-2 font-medium">Email *</label>
-                                        <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="rahul@business.com" className="input-field" required />
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={form.email}
+                                            onChange={handleChange}
+                                            placeholder="rahul@business.com"
+                                            className={`input-field ${emailError ? 'border-red-500/50 bg-red-500/5' : ''}`}
+                                            required
+                                        />
+                                        {emailError && <p className="text-red-400 text-[10px] mt-1 ml-1">{emailError}</p>}
                                     </div>
                                 </div>
                                 <div>

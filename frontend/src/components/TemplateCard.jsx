@@ -30,6 +30,8 @@ export default function TemplateCard({ template, index = 0 }) {
                 <img
                     src={template.preview_image}
                     alt={template.title}
+                    loading="lazy"
+                    decodings="async"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     onError={(e) => {
                         e.target.src = `https://via.placeholder.com/800x450/1e1b4b/6366f1?text=${encodeURIComponent(template.title)}`;
@@ -59,8 +61,8 @@ export default function TemplateCard({ template, index = 0 }) {
                 <div className="pt-5 border-t border-white/10 mt-auto">
                     <div className="flex items-center justify-between mb-4">
                         <div>
-                            <p className="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Entry Price</p>
-                            <p className="text-2xl font-display font-black gradient-text">₹{Number(template.price).toLocaleString()}</p>
+                            <p className="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Starting From</p>
+                            <p className="text-2xl font-display font-black gradient-text">₹4,999</p>
                         </div>
                         <div className="text-right">
                             <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-tighter">Ready to Use</p>

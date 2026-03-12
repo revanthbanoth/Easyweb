@@ -4,7 +4,7 @@ const { pool } = require('../db');
 const getAllTemplates = async (req, res) => {
     try {
         const { rows } = await pool.query(
-            'SELECT * FROM website_templates ORDER BY created_at DESC'
+            'SELECT id, title, category, price, preview_image, description FROM website_templates ORDER BY created_at DESC'
         );
         res.json({ success: true, data: rows });
     } catch (error) {

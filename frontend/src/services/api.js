@@ -19,8 +19,23 @@ api.interceptors.response.use(
     }
 );
 
-export const getTemplates = () => api.get('/templates');
-export const getTemplateById = (id) => api.get(`/templates/${id}`);
+let templatesCache = null;
+
+export const getTemplates = async () => {
+    if (templatesCache) return { data: templatesCache };
+    const res = await api.get('/templates');
+    templatesCache = res.data;
+    return res;
+};
+
+export const getTemplateById = async (id) => {
+    if (templatesCache) {
+        const cached = templatesCache.find(t => String(t.id) === String(id));
+        if (cached) return { data: cached };
+    }
+    return api.get(`/templates/${id}`);
+};
+
 export const createOrder = (data) => api.post('/orders', data);
 export const getOrders = () => api.get('/orders');
 export const updateOrderStatus = (id, status) =>
