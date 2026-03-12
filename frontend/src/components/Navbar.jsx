@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Zap } from 'lucide-react';
+import { getTemplates } from '../services/api';
 
 const navLinks = [
     { label: 'Home', path: '/' },
@@ -63,7 +64,7 @@ export default function Navbar() {
                                 to={link.path}
                                 onMouseEnter={() => {
                                     if (link.path === '/templates') {
-                                        import('../services/api').then(({ getTemplates }) => getTemplates());
+                                        getTemplates();
                                     }
                                 }}
                                 className={`px-2 md:px-4 py-2 rounded-lg text-[11px] md:text-sm transition-colors ${link.label === 'Home' ? 'hidden md:block' : ''

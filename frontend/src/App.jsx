@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { getTemplates } from './services/api';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -26,9 +27,7 @@ function AnimatedRoutes() {
   useEffect(() => {
     window.scrollTo(0, 0);
     // Wake up backend if it's sleeping (Render free tier)
-    import('./services/api').then(({ getTemplates }) => {
-      getTemplates().catch(() => {}); // Silent ping
-    });
+    getTemplates().catch(() => {});
   }, [location.pathname]);
 
   return (

@@ -14,6 +14,7 @@ const categoryColors = {
 };
 
 export default function TemplateCard({ template, index = 0 }) {
+    if (!template) return null;
     const badgeClass = categoryColors[template.category] || 'from-gray-500/20 to-gray-500/20 border-gray-500/30 text-gray-300';
 
     return (
