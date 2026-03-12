@@ -32,4 +32,16 @@ const submitContactMessage = async (req, res) => {
     }
 };
 
-module.exports = { submitContactMessage };
+const getContactMessages = async (req, res) => {
+    try {
+        const { rows } = await pool.query(
+            'SELECT * FROM contact_messages ORDER BY created_at DESC'
+        );
+        res.json({ success: true, data: rows });
+    } catch (error) {
+        console.error('Error fetching contact messages:', error);
+        res.status(500).json({ success: false, message: 'Failed to fetch messages' });
+    }
+};
+
+module.exports = { submitContactMessage, getContactMessages };

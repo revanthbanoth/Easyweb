@@ -5,7 +5,7 @@ import {
     XCircle, Loader2, RefreshCw, TrendingUp, Users,
     Lock, ShieldCheck, ArrowRight, LogOut
 } from 'lucide-react';
-import { getOrders, updateOrderStatus } from '../services/api';
+import { getOrders, updateOrderStatus, getContactMessages } from '../services/api';
 
 const STATUS_CONFIG = {
     pending: { color: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/30', icon: Clock, label: 'Pending' },
@@ -26,6 +26,8 @@ export default function Admin() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loginData, setLoginData] = useState({ username: '', password: '' });
     const [loginError, setLoginError] = useState('');
+    const [activeTab, setActiveTab] = useState('orders');
+    const [messages, setMessages] = useState([]);
 
     // Check auth on mount
     useEffect(() => {
@@ -37,13 +39,18 @@ export default function Admin() {
         document.title = 'Admin Dashboard – EasyWeb';
     }, []);
 
-    const fetchOrders = () => {
+    const fetchDashboardData = () => {
         setLoading(true);
-        getOrders()
-            .then((res) => setOrders(res.data || []))
-            .catch(() => setError('Failed to load orders. Is the backend running?'))
+        Promise.all([getOrders(), getContactMessages()])
+            .then(([ordersRes, messagesRes]) => {
+                setOrders(ordersRes.data || []);
+                setMessages(messagesRes.data || []);
+            })
+            .catch(() => setError('Failed to load dashboard data. Is the backend running?'))
             .finally(() => setLoading(false));
     };
+
+    const fetchOrders = fetchDashboardData;
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -170,7 +177,7 @@ export default function Admin() {
                     </div>
                     <div className="flex items-center gap-3 w-full sm:w-auto">
                         <button
-                            onClick={fetchOrders}
+                            onClick={fetchDashboardData}
                             disabled={loading}
                             className="flex-1 sm:flex-none flex items-center justify-center gap-2 btn-secondary text-sm px-5 py-2.5"
                         >
@@ -216,113 +223,200 @@ export default function Admin() {
                     </div>
                 )}
 
-                {/* Orders Table */}
-                <div className="glass-card overflow-hidden">
-                    <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-white/2">
-                        <div className="flex items-center gap-2">
-                            <Users size={16} className="text-primary-400" />
-                            <h2 className="font-display font-semibold text-white">Recent Requests</h2>
-                        </div>
-                        <span className="badge bg-primary-600/20 text-primary-300 border border-primary-500/30 text-[10px] py-0.5">
-                            {total} TOTAL
-                        </span>
-                    </div>
+                {/* Tabs */}
+                <div className="flex gap-4 mb-6 border-b border-white/10">
+                    <button
+                        onClick={() => setActiveTab('orders')}
+                        className={`pb-3 text-sm font-semibold transition-all relative ${activeTab === 'orders' ? 'text-primary-400' : 'text-gray-500 hover:text-gray-300'}`}
+                    >
+                        Project Requests
+                        {activeTab === 'orders' && <motion.div layoutId="tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500" />}
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('messages')}
+                        className={`pb-3 text-sm font-semibold transition-all relative ${activeTab === 'messages' ? 'text-primary-400' : 'text-gray-500 hover:text-gray-300'}`}
+                    >
+                        Contact Messages
+                        {activeTab === 'messages' && <motion.div layoutId="tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500" />}
+                    </button>
+                </div>
 
-                    {loading ? (
-                        <div className="flex items-center justify-center py-24">
-                            <div className="w-10 h-10 border-3 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                {/* Content */}
+                {activeTab === 'orders' ? (
+                    <div className="glass-card overflow-hidden">
+                        <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-white/2">
+                            <div className="flex items-center gap-2">
+                                <ShoppingBag size={16} className="text-primary-400" />
+                                <h2 className="font-display font-semibold text-white">Website Requests</h2>
+                            </div>
+                            <span className="badge bg-primary-600/20 text-primary-300 border border-primary-500/30 text-[10px] py-0.5">
+                                {total} TOTAL
+                            </span>
                         </div>
-                    ) : orders.length === 0 ? (
-                        <div className="text-center py-24">
-                            <ShoppingBag size={40} className="mx-auto text-gray-700 mb-4" />
-                            <p className="text-gray-400 font-medium">No orders in the database</p>
-                            <p className="text-gray-600 text-sm mt-1">New customer orders will automatically appear here.</p>
+
+                        {loading ? (
+                            <div className="flex items-center justify-center py-24">
+                                <div className="w-10 h-10 border-3 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                            </div>
+                        ) : orders.length === 0 ? (
+                            <div className="text-center py-24">
+                                <ShoppingBag size={40} className="mx-auto text-gray-700 mb-4" />
+                                <p className="text-gray-400 font-medium">No orders in the database</p>
+                                <p className="text-gray-600 text-sm mt-1">New customer orders will automatically appear here.</p>
+                            </div>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="border-b border-white/5 bg-white/2">
+                                            {['#ID', 'Lead details', 'Business info', 'Template', 'Base Price', 'Date', 'Status', 'Manage'].map((h) => (
+                                                <th key={h} className="text-left px-6 py-4 text-gray-500 font-bold text-[10px] uppercase tracking-widest">
+                                                    {h}
+                                                </th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-white/5">
+                                        {orders.map((order, i) => {
+                                            const status = STATUS_CONFIG[order.order_status] || STATUS_CONFIG.pending;
+                                            const StatusIcon = status.icon;
+                                            return (
+                                                <motion.tr
+                                                    key={order.id}
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    transition={{ delay: i * 0.03 }}
+                                                    className="hover:bg-white/5 transition-colors group"
+                                                >
+                                                    <td className="px-6 py-5 text-gray-500 font-mono text-xs">#{order.id}</td>
+                                                    <td className="px-6 py-5">
+                                                        <p className="text-white font-semibold">{order.customer_name || order.email}</p>
+                                                        <p className="text-gray-500 text-xs mt-0.5">{order.email}</p>
+                                                        {order.phone && <p className="text-gray-500 text-[10px] opacity-80 mt-0.5 font-mono">{order.phone}</p>}
+                                                    </td>
+                                                    <td className="px-6 py-5">
+                                                        <p className="text-gray-300 text-xs font-medium">{order.business_name || '—'}</p>
+                                                        {order.business_category && (
+                                                            <p className="text-gray-500 text-[10px] mt-0.5">{order.business_category}</p>
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6 py-5">
+                                                        <p className="text-gray-200 text-xs">{order.template_title || '—'}</p>
+                                                        <span className="text-[10px] px-1.5 py-0.5 bg-white/10 rounded-md text-gray-500 mt-1 inline-block uppercase font-bold tracking-tighter">
+                                                            {order.template_category}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-5">
+                                                        <p className="text-white font-bold text-sm">
+                                                            ₹4,999
+                                                        </p>
+                                                        <p className={`text-[10px] uppercase font-bold mt-1 ${order.payment_status === 'paid' ? 'text-emerald-500' : 'text-gray-500'}`}>
+                                                            {order.payment_status}
+                                                        </p>
+                                                    </td>
+                                                    <td className="px-6 py-5 text-gray-400 text-xs whitespace-nowrap">
+                                                        {new Date(order.created_at).toLocaleDateString('en-IN', {
+                                                            day: '2-digit', month: 'short', year: 'numeric',
+                                                        })}
+                                                    </td>
+                                                    <td className="px-6 py-5">
+                                                        <span className={`badge border ${status.color} flex items-center gap-1.5 w-fit text-[10px] px-2 py-1`}>
+                                                            <StatusIcon size={10} className={order.order_status === 'in_progress' ? 'animate-spin' : ''} />
+                                                            {status.label}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-5">
+                                                        {updating === order.id ? (
+                                                            <div className="w-5 h-5 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                                                        ) : (
+                                                            <select
+                                                                value={order.order_status}
+                                                                onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                                                                className="bg-dark-700 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-primary-500 transition-all cursor-pointer hover:bg-dark-600"
+                                                            >
+                                                                <option value="pending">Pending</option>
+                                                                <option value="in_progress">In Progress</option>
+                                                                <option value="completed">Completed</option>
+                                                                <option value="cancelled">Cancelled</option>
+                                                            </select>
+                                                        )}
+                                                    </td>
+                                                </motion.tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div className="glass-card overflow-hidden">
+                        <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-white/2">
+                            <div className="flex items-center gap-2">
+                                <Users size={16} className="text-primary-400" />
+                                <h2 className="font-display font-semibold text-white">Contact Messages</h2>
+                            </div>
+                            <span className="badge bg-primary-600/20 text-primary-300 border border-primary-500/30 text-[10px] py-0.5">
+                                {messages.length} TOTAL
+                            </span>
                         </div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
-                                <thead>
-                                    <tr className="border-b border-white/5 bg-white/2">
-                                        {['#ID', 'Lead details', 'Business info', 'Template', 'Base Price', 'Date', 'Status', 'Manage'].map((h) => (
-                                            <th key={h} className="text-left px-6 py-4 text-gray-500 font-bold text-[10px] uppercase tracking-widest">
-                                                {h}
-                                            </th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-white/5">
-                                    {orders.map((order, i) => {
-                                        const status = STATUS_CONFIG[order.order_status] || STATUS_CONFIG.pending;
-                                        const StatusIcon = status.icon;
-                                        return (
+
+                        {loading ? (
+                            <div className="flex items-center justify-center py-24">
+                                <div className="w-10 h-10 border-3 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                            </div>
+                        ) : messages.length === 0 ? (
+                            <div className="text-center py-24">
+                                <Users size={40} className="mx-auto text-gray-700 mb-4" />
+                                <p className="text-gray-400 font-medium">No contact messages yet</p>
+                            </div>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="border-b border-white/5 bg-white/2">
+                                            {['#ID', 'Sender', 'Contact Info', 'Message', 'Date'].map((h) => (
+                                                <th key={h} className="text-left px-6 py-4 text-gray-500 font-bold text-[10px] uppercase tracking-widest">
+                                                    {h}
+                                                </th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-white/5">
+                                        {messages.map((msg, i) => (
                                             <motion.tr
-                                                key={order.id}
+                                                key={msg.id}
                                                 initial={{ opacity: 0, x: -10 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: i * 0.03 }}
                                                 className="hover:bg-white/5 transition-colors group"
                                             >
-                                                <td className="px-6 py-5 text-gray-500 font-mono text-xs">#{order.id}</td>
+                                                <td className="px-6 py-5 text-gray-500 font-mono text-xs">#{msg.id}</td>
                                                 <td className="px-6 py-5">
-                                                    <p className="text-white font-semibold">{order.customer_name || order.email}</p>
-                                                    <p className="text-gray-500 text-xs mt-0.5">{order.email}</p>
-                                                    {order.phone && <p className="text-gray-500 text-[10px] opacity-80 mt-0.5 font-mono">{order.phone}</p>}
+                                                    <p className="text-white font-semibold">{msg.name}</p>
                                                 </td>
                                                 <td className="px-6 py-5">
-                                                    <p className="text-gray-300 text-xs font-medium">{order.business_name || '—'}</p>
-                                                    {order.business_category && (
-                                                        <p className="text-gray-500 text-[10px] mt-0.5">{order.business_category}</p>
-                                                    )}
+                                                    <p className="text-gray-300 text-xs">{msg.email}</p>
+                                                    <p className="text-gray-500 text-[10px] mt-0.5 font-mono">{msg.phone || '—'}</p>
                                                 </td>
-                                                <td className="px-6 py-5">
-                                                    <p className="text-gray-200 text-xs">{order.template_title || '—'}</p>
-                                                    <span className="text-[10px] px-1.5 py-0.5 bg-white/10 rounded-md text-gray-500 mt-1 inline-block uppercase font-bold tracking-tighter">
-                                                        {order.template_category}
-                                                    </span>
-                                                </td>
-                                                <td className="px-6 py-5">
-                                                    <p className="text-white font-bold text-sm">
-                                                        {order.price ? `₹${Number(order.price).toLocaleString()}` : '—'}
-                                                    </p>
-                                                    <p className={`text-[10px] uppercase font-bold mt-1 ${order.payment_status === 'paid' ? 'text-emerald-500' : 'text-gray-500'}`}>
-                                                        {order.payment_status}
+                                                <td className="px-6 py-5 max-w-xs">
+                                                    <p className="text-gray-400 text-xs line-clamp-3 leading-relaxed">
+                                                        {msg.message}
                                                     </p>
                                                 </td>
                                                 <td className="px-6 py-5 text-gray-400 text-xs whitespace-nowrap">
-                                                    {new Date(order.created_at).toLocaleDateString('en-IN', {
+                                                    {new Date(msg.created_at).toLocaleDateString('en-IN', {
                                                         day: '2-digit', month: 'short', year: 'numeric',
                                                     })}
                                                 </td>
-                                                <td className="px-6 py-5">
-                                                    <span className={`badge border ${status.color} flex items-center gap-1.5 w-fit text-[10px] px-2 py-1`}>
-                                                        <StatusIcon size={10} className={order.order_status === 'in_progress' ? 'animate-spin' : ''} />
-                                                        {status.label}
-                                                    </span>
-                                                </td>
-                                                <td className="px-6 py-5">
-                                                    {updating === order.id ? (
-                                                        <div className="w-5 h-5 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
-                                                    ) : (
-                                                        <select
-                                                            value={order.order_status}
-                                                            onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                                                            className="bg-dark-700 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-primary-500 transition-all cursor-pointer hover:bg-dark-600"
-                                                        >
-                                                            <option value="pending">Pending</option>
-                                                            <option value="in_progress">In Progress</option>
-                                                            <option value="completed">Completed</option>
-                                                            <option value="cancelled">Cancelled</option>
-                                                        </select>
-                                                    )}
-                                                </td>
                                             </motion.tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </div>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // In development: VITE_API_URL is empty → uses Vite proxy at /api (no CORS issue)
 // In production:  VITE_API_URL = https://easyweb-backend-q7aa.onrender.com
-const API_BASE = import.meta.env.VITE_API_URL || 'https://easyweb-backend-q7aa.onrender.com';
+const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '' : 'https://easyweb-backend-q7aa.onrender.com');
 
 const api = axios.create({
     baseURL: `${API_BASE}/api`,
@@ -41,5 +41,6 @@ export const getOrders = () => api.get('/orders');
 export const updateOrderStatus = (id, status) =>
     api.put(`/orders/${id}`, { order_status: status });
 export const submitContactForm = (data) => api.post('/contact', data);
+export const getContactMessages = () => api.get('/contact');
 
 export default api;
