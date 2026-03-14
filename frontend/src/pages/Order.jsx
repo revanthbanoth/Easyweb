@@ -78,6 +78,7 @@ export default function Order() {
         try {
             await createOrder(form);
             setSuccess(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (err) {
             setError(err.message || 'Failed to submit request. Please try again.');
         } finally {

@@ -52,6 +52,7 @@ export default function Contact() {
         try {
             await submitContactForm(form);
             setSent(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (err) {
             setError(err.message || 'Failed to send message. Please try again.');
         } finally {
