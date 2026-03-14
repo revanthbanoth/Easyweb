@@ -309,6 +309,17 @@ API Docs → http://localhost:5000/api/health
    ```
 5. Deploy ✅
 
+### 🔄 Uptime Monitoring (UptimeRobot)
+
+To prevent the Render backend from sleeping, we have provided a `/health` endpoint to be pinged by UptimeRobot every 5 minutes.
+
+1. Create account at https://uptimerobot.com
+2. Add new monitor
+3. Monitor type = HTTP
+4. Friendly name = EasyWeb Backend
+5. URL = https://your-render-backend-url/health
+6. Monitoring interval = 5 minutes
+
 ### Database → NeonDB
 
 NeonDB is already configured. Tables are created automatically on the first server start.
