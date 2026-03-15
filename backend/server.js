@@ -26,9 +26,10 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health check endpoint used by UptimeRobot to prevent Render cold starts
+// Health check endpoint used by uptime monitoring services
+// Prevents Render free servers from sleeping by receiving periodic pings
 app.get("/health", (req, res) => {
-    console.log("Health check ping received at", new Date());
+    console.log("Health check ping received");
     res.status(200).json({
         status: "ok",
         service: "EasyWeb backend",
