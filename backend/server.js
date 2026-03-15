@@ -33,8 +33,14 @@ app.get("/health", (req, res) => {
     res.status(200).json({
         status: "ok",
         service: "EasyWeb backend",
-        timestamp: new Date()
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString()
     });
+});
+
+// Root endpoint for uptime monitoring tools checking the base URL
+app.get("/", (req, res) => {
+    res.status(200).send("EasyWeb backend is running");
 });
 
 // Routes
