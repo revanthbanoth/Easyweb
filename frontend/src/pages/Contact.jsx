@@ -84,7 +84,7 @@ export default function Contact() {
                             <h2 className="font-display font-bold text-xl text-white mb-6">Contact Information</h2>
                             {[
                                 { icon: Mail, label: 'Email Us', value: 'officialeasyweb@gmail.com', sub: 'We reply within 2 hours' },
-                                { icon: Phone, label: 'Call Us', value: '+91 6301094610', sub: 'Mon–Sat, 9am–8pm IST', href: 'tel:6301094610' },
+                                { icon: Phone, label: 'Call Us', value: '+91 6302437621', sub: 'Mon–Sat, 9am–8pm IST', href: 'tel:6302437621' },
                                 { icon: MapPin, label: 'Our Office', value: 'Hyderabad, Telangana', sub: 'India' },
                                 { icon: Clock, label: 'Working Hours', value: 'Mon–Sat: 9am–8pm', sub: 'Sun: 10am–4pm IST' },
                             ].map((item) => (
@@ -161,7 +161,7 @@ export default function Contact() {
                                 </div>
                                 <div>
                                     <label className="block text-sm text-gray-300 mb-2 font-medium">Phone</label>
-                                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="+91 6301094610" className="input-field" />
+                                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="+91 6302437621" className="input-field" />
                                 </div>
                                 <div>
                                     <label className="block text-sm text-gray-300 mb-2 font-medium">Message *</label>
