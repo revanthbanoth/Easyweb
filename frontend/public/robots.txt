@@ -1,0 +1,9 @@
+# robots.txt for EasyWeb – https://easyweb-in.onrender.com
+# Last updated: 2026-05-10
+
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# Sitemap location
+Sitemap: https://easyweb-in.onrender.com/sitemap.xml
