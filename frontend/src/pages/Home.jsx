@@ -42,6 +42,21 @@ const testimonials = [
     },
 ];
 
+const team = [
+    {
+        name: 'Revanth Kumar',
+        role: 'Co-Founder & Web Developer',
+        bio: 'Building fast, beautiful websites that help businesses grow online.',
+        avatar: 'RK',
+    },
+    {
+        name: 'Aravind',
+        role: 'Co-Founder & Client Relations Manager',
+        bio: 'Ensuring every client gets their dream website delivered on time.',
+        avatar: 'A',
+    }
+];
+
 const stats = [
     { value: '500+', label: 'Clients Served' },
     { value: '24hr', label: 'Avg Delivery' },
@@ -260,8 +275,51 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* ── TEAM ── */}
+            <section className="py-24 bg-dark-800 relative overflow-hidden">
+                <div className="glow-orb w-[400px] h-[400px] bg-primary-600 top-0 left-1/2 -translate-x-1/2 opacity-5" />
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-16"
+                    >
+                        <p className="text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">Meet the Team</p>
+                        <h2 className="section-title mb-4">The People Behind <span className="gradient-text">EasyWeb</span></h2>
+                        <p className="section-subtitle max-w-2xl mx-auto">
+                            We are a small passionate team dedicated to helping Indian businesses grow online.
+                        </p>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                        {team.map((member, i) => (
+                            <motion.div
+                                key={member.name}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: i * 0.2 }}
+                                whileHover={{ y: -5 }}
+                                className="glass-card-hover p-8 flex flex-col items-center text-center group"
+                            >
+                                <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-primary-500 to-neon-blue p-1 shadow-lg shadow-primary-500/20 group-hover:shadow-primary-500/40 transition-shadow duration-300">
+                                    <div className="w-full h-full rounded-full bg-dark-800 flex items-center justify-center text-2xl font-bold text-white border-2 border-dark-800 overflow-hidden relative">
+                                        <div className="absolute inset-0 bg-primary-500/20" />
+                                        <span className="relative z-10">{member.avatar}</span>
+                                    </div>
+                                </div>
+                                <h3 className="text-xl font-display font-bold text-white mb-1">{member.name}</h3>
+                                <p className="text-primary-400 font-medium text-sm mb-4">{member.role}</p>
+                                <p className="text-gray-400 text-sm leading-relaxed">{member.bio}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* ── FEATURES ── */}
-            <section id="features" className="py-24 bg-dark-800 relative overflow-hidden">
+            <section id="features" className="py-24 bg-dark-900 relative overflow-hidden">
                 <div className="glow-orb w-96 h-96 bg-primary-700 top-0 right-0 opacity-10" />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <motion.div {...fadeUp} viewport={{ once: true }} whileInView={fadeUp.animate} className="text-center mb-16">
@@ -294,7 +352,7 @@ export default function Home() {
             </section>
 
             {/* ── POPULAR TEMPLATES ── */}
-            <section className="py-24 bg-dark-900 relative overflow-hidden">
+            <section className="py-24 bg-dark-800 relative overflow-hidden">
                 <div className="glow-orb w-96 h-96 bg-neon-blue bottom-0 left-0 opacity-5" />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <motion.div
@@ -335,7 +393,7 @@ export default function Home() {
             </section>
 
             {/* ── PRICING ── */}
-            <section className="py-24 bg-dark-800 relative overflow-hidden">
+            <section className="py-24 bg-dark-900 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -358,7 +416,7 @@ export default function Home() {
             </section>
 
             {/* ── TESTIMONIALS ── */}
-            <section className="py-24 bg-dark-900">
+            <section className="py-24 bg-dark-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
