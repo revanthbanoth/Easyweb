@@ -50,10 +50,10 @@ export default function Footer() {
                     <div>
                         <h4 className="font-semibold text-white mb-4">Product</h4>
                         <ul className="space-y-3">
-                            {['Templates', 'Features'].map((item) => (
+                            {['Templates', 'Pricing', 'Features'].map((item) => (
                                 <li key={item}>
                                     <Link
-                                        to={item === 'Templates' ? '/templates' : '/#features'}
+                                        to={item === 'Templates' ? '/templates' : item === 'Pricing' ? '/pricing' : '/#features'}
                                         className="text-gray-400 hover:text-white text-sm transition-colors"
                                     >
                                         {item}
@@ -69,7 +69,7 @@ export default function Footer() {
                             {['About Us', 'Contact'].map((item) => (
                                 <li key={item}>
                                     <Link
-                                        to={item === 'Contact' ? '/contact' : '/#features'}
+                                        to={item === 'Contact' ? '/contact' : '/#about'}
                                         className="text-gray-400 hover:text-white text-sm transition-colors"
                                     >
                                         {item}

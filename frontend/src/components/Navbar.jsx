@@ -7,6 +7,7 @@ import { getTemplates } from '../services/api';
 const navLinks = [
     { label: 'Home', path: '/' },
     { label: 'Templates', path: '/templates' },
+    { label: 'Pricing', path: '/pricing' },
     { label: 'Contact', path: '/contact' },
 ];
 

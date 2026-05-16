@@ -10,6 +10,8 @@ import TemplateDetail from './pages/TemplateDetail';
 import Order from './pages/Order';
 import Admin from './pages/Admin';
 import Contact from './pages/Contact';
+import Pricing from './pages/Pricing';
+import WhatsAppButton from './components/WhatsAppButton';
 
 const pageVariants = {
   initial: { opacity: 0, y: 16 },
@@ -25,10 +27,20 @@ function AnimatedRoutes() {
   const isAdminPage = location.pathname === '/admin';
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (location.hash) {
+      setTimeout(() => {
+        const id = location.hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 400); // Wait for page transition
+    } else {
+      window.scrollTo(0, 0);
+    }
     // Wake up backend if it's sleeping (Render free tier)
     getTemplates().catch(() => {});
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   return (
     <>
@@ -46,6 +58,7 @@ function AnimatedRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/templates" element={<Templates />} />
             <Route path="/templates/:id" element={<TemplateDetail />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route path="/order" element={<Order />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/contact" element={<Contact />} />
@@ -63,6 +76,7 @@ function AnimatedRoutes() {
         </motion.div>
       </AnimatePresence>
       {!isAdminPage && <Footer />}
+      {!isAdminPage && <WhatsAppButton />}
     </>
   );
 }

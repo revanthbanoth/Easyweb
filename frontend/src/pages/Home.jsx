@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { getTemplates } from '../services/api';
 import TemplateCard from '../components/TemplateCard';
+import PricingPlans from '../components/PricingPlans';
 
 const features = [
     { icon: Clock, title: '24-Hour Kickoff', desc: 'Our team contacts you and starts your project within 24 hours of your request.' },
@@ -189,6 +190,76 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* ── ABOUT US ── */}
+            <section id="about" className="py-24 bg-dark-900 relative overflow-hidden border-b border-white/5">
+                <div className="glow-orb w-[500px] h-[500px] bg-neon-purple top-1/2 left-0 -translate-y-1/2 opacity-[0.07]" />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <motion.div {...fadeUp} viewport={{ once: true }} whileInView={fadeUp.animate} className="text-center mb-16">
+                        <p className="text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">About Us</p>
+                        <h2 className="section-title mb-4">
+                            Empowering Businesses with <span className="gradient-text">Digital Excellence</span>
+                        </h2>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="relative"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-tr from-primary-600 to-neon-blue rounded-2xl blur-3xl opacity-20" />
+                            <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl z-10 group">
+                                <div className="absolute inset-0 bg-dark-900/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
+                                <img
+                                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
+                                    alt="EasyWeb Team"
+                                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                />
+                            </div>
+                            <div className="absolute -bottom-6 -right-6 glass-card p-6 z-20 hidden md:block border border-white/10 shadow-xl">
+                                <div className="text-3xl font-display font-black gradient-text mb-1">24/7</div>
+                                <div className="text-sm text-gray-400 font-medium">Dedicated Support</div>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                        >
+                            <div className="space-y-4 text-gray-400 text-base md:text-lg leading-relaxed mb-8">
+                                <p>
+                                    At EasyWeb, we believe that every business, regardless of its size, deserves a stunning and highly functional digital presence. We understand the challenges small business owners face when trying to get online—it's often too expensive, too complex, or simply takes too long.
+                                </p>
+                                <p>
+                                    That's why we reimagined the web development process. Our mission is to bridge the gap by offering premium, ready-made website architectures tailored specifically for industries like healthcare, fitness, and hospitality. 
+                                </p>
+                                <p>
+                                    Our expert team handles all the technical heavy lifting, allowing you to launch a beautiful, SEO-optimized website in just 24 hours. No stress, no hidden fees—just rapid results that help your business grow.
+                                </p>
+                            </div>
+                            <div className="flex flex-wrap gap-6">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-8 h-8 rounded-full bg-primary-500/10 flex items-center justify-center">
+                                        <CheckCircle className="text-primary-400 w-4 h-4" />
+                                    </div>
+                                    <span className="text-gray-300 font-medium text-sm">Lightning Fast Delivery</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-8 h-8 rounded-full bg-primary-500/10 flex items-center justify-center">
+                                        <CheckCircle className="text-primary-400 w-4 h-4" />
+                                    </div>
+                                    <span className="text-gray-300 font-medium text-sm">Premium Modern Design</span>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
             {/* ── FEATURES ── */}
             <section id="features" className="py-24 bg-dark-800 relative overflow-hidden">
                 <div className="glow-orb w-96 h-96 bg-primary-700 top-0 right-0 opacity-10" />
@@ -263,8 +334,31 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* ── PRICING ── */}
+            <section className="py-24 bg-dark-800 relative overflow-hidden">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-16"
+                    >
+                        <p className="text-primary-400 font-semibold text-sm uppercase tracking-widest mb-3">Pricing</p>
+                        <h2 className="section-title mb-4">Simple, Transparent <span className="gradient-text">Pricing</span></h2>
+                        <p className="section-subtitle max-w-2xl mx-auto mb-6">
+                            Choose the perfect plan for your business. No hidden fees, no surprises.
+                        </p>
+                        <Link to="/pricing" className="text-primary-400 hover:text-primary-300 font-medium inline-flex items-center gap-1 transition-colors">
+                            View full pricing details <ChevronRight size={16} />
+                        </Link>
+                    </motion.div>
+
+                    <PricingPlans />
+                </div>
+            </section>
+
             {/* ── TESTIMONIALS ── */}
-            <section className="py-24 bg-dark-800">
+            <section className="py-24 bg-dark-900">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
