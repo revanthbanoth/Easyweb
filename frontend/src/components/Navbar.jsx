@@ -24,7 +24,7 @@ export default function Navbar() {
 
     return (
         <nav 
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 overflow-x-hidden ${
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 overflow-hidden w-full ${
                 scrolled
                     ? 'bg-dark-900 border-b border-white/10 shadow-lg'
                     : 'bg-transparent'
@@ -52,7 +52,7 @@ export default function Navbar() {
                     </Link>
 
                     {/* CENTER: Navigation Links */}
-                    <div className="flex items-center justify-center flex-1 mx-1 md:mx-8 gap-1.5 sm:gap-3 md:gap-6 shrink">
+                    <div className="flex items-center justify-between md:justify-center flex-1 mx-2 sm:mx-4 md:mx-8 md:gap-6 shrink">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.path}
@@ -75,9 +75,10 @@ export default function Navbar() {
                     <div className="flex items-center shrink-0">
                         <Link 
                             to="/templates" 
-                            className="btn-primary text-[10px] md:text-sm px-3 py-1.5 md:px-6 md:py-2.5 font-bold shadow-neon-blue/10 rounded-md md:rounded-xl"
+                            className="btn-primary text-[11px] md:text-sm px-2 py-1.5 sm:px-3 sm:py-1.5 md:px-6 md:py-2.5 font-bold shadow-neon-blue/10 rounded-md md:rounded-xl"
                         >
-                            Get Started
+                            <span className="md:hidden">Start</span>
+                            <span className="hidden md:inline">Get Started</span>
                         </Link>
                     </div>
 
