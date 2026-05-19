@@ -17,6 +17,8 @@ app.use(cors({
         if (!origin) return callback(null, true);
         // Allow any localhost port (5173, 5174, 3000, etc.)
         if (/^http:\/\/localhost(:\d+)?$/.test(origin)) return callback(null, true);
+        // Allow the custom domains
+        if (/^https?:\/\/(www\.)?myeasyweb\.in$/.test(origin)) return callback(null, true);
         // Allow configured production frontend URL
         if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) return callback(null, true);
         callback(new Error(`CORS blocked: ${origin}`));
