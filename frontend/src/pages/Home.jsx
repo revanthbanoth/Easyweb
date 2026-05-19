@@ -44,14 +44,14 @@ const testimonials = [
 
 const team = [
     {
-        name: 'Revanth Kumar',
+        name: 'B.Revanth Kumar',
         role: 'Co-Founder & Web Developer',
         bio: 'Building fast, beautiful websites that help businesses grow online.',
         image: '/revanth-emoji.png',
         bgColor: 'rgba(99,102,241,0.15)',
     },
     {
-        name: 'Aravind',
+        name: 'A.Aravind',
         role: 'Co-Founder & Client Relations Manager',
         bio: 'Ensuring every client gets their dream website delivered on time.',
         image: '/aravind-emoji.png',
@@ -252,7 +252,7 @@ export default function Home() {
                                     At EasyWeb, we believe that every business, regardless of its size, deserves a stunning and highly functional digital presence. We understand the challenges small business owners face when trying to get online—it's often too expensive, too complex, or simply takes too long.
                                 </p>
                                 <p>
-                                    That's why we reimagined the web development process. Our mission is to bridge the gap by offering premium, ready-made website architectures tailored specifically for industries like healthcare, fitness, and hospitality. 
+                                    That's why we reimagined the web development process. Our mission is to bridge the gap by offering premium, ready-made website architectures tailored specifically for industries like healthcare, fitness, and hospitality.
                                 </p>
                                 <p>
                                     Our expert team handles all the technical heavy lifting, allowing you to launch a beautiful, SEO-optimized website in just 24 hours. No stress, no hidden fees—just rapid results that help your business grow.
@@ -305,7 +305,7 @@ export default function Home() {
                                 whileHover={{ y: -5 }}
                                 className="glass-card-hover p-8 flex flex-col items-center text-center group"
                             >
-                                <div 
+                                <div
                                     className="w-[100px] h-[100px] mb-6 rounded-full flex items-center justify-center p-[20px] group-hover:animate-subtle-bounce"
                                     style={{
                                         background: member.bgColor,
