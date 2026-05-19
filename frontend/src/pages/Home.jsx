@@ -47,13 +47,15 @@ const team = [
         name: 'Revanth Kumar',
         role: 'Co-Founder & Web Developer',
         bio: 'Building fast, beautiful websites that help businesses grow online.',
-        avatar: 'RK',
+        image: '/revanth-emoji.png',
+        bgColor: 'rgba(99,102,241,0.15)',
     },
     {
         name: 'Aravind',
         role: 'Co-Founder & Client Relations Manager',
         bio: 'Ensuring every client gets their dream website delivered on time.',
-        avatar: 'A',
+        image: '/aravind-emoji.png',
+        bgColor: 'rgba(6,182,212,0.15)',
     }
 ];
 
@@ -303,11 +305,13 @@ export default function Home() {
                                 whileHover={{ y: -5 }}
                                 className="glass-card-hover p-8 flex flex-col items-center text-center group"
                             >
-                                <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-primary-500 to-neon-blue p-1 shadow-lg shadow-primary-500/20 group-hover:shadow-primary-500/40 transition-shadow duration-300">
-                                    <div className="w-full h-full rounded-full bg-dark-800 flex items-center justify-center text-2xl font-bold text-white border-2 border-dark-800 overflow-hidden relative">
-                                        <div className="absolute inset-0 bg-primary-500/20" />
-                                        <span className="relative z-10">{member.avatar}</span>
-                                    </div>
+                                <div 
+                                    className="w-[100px] h-[100px] mb-6 rounded-full flex items-center justify-center p-[20px] group-hover:animate-subtle-bounce"
+                                    style={{
+                                        background: member.bgColor,
+                                    }}
+                                >
+                                    <img src={member.image} alt={member.name} className="w-full h-full object-contain drop-shadow-sm" />
                                 </div>
                                 <h3 className="text-xl font-display font-bold text-white mb-1">{member.name}</h3>
                                 <p className="text-primary-400 font-medium text-sm mb-4">{member.role}</p>

@@ -53,8 +53,13 @@ export default {
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s ease-in-out infinite',
         'gradient': 'gradient 8s ease infinite',
+        'subtle-bounce': 'subtleBounce 1s infinite',
       },
       keyframes: {
+        subtleBounce: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-20px)' },
